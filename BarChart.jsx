@@ -45,6 +45,13 @@ const BarChart = () => {
     ],
   });
 
+  // Helper function to check if data is empty
+  const isDataEmpty = () => {
+    return !data.datasets || 
+           data.datasets.length === 0 || 
+           data.datasets.every(dataset => !dataset.data || dataset.data.length === 0);
+  };
+
   const [options] = useState({
     responsive: true,
     maintainAspectRatio: false,
@@ -99,27 +106,44 @@ const BarChart = () => {
         <div className="chart-title">Carbon savings (t)</div>
         <button className="chart-close-btn" onClick={handleClose}>×</button>
       </div>
-      <div className="bar-chart-wrapper">
-        <Bar data={data} options={options} />
-      </div>
-      <div className="chart-legend">
-        <div className="legend-item">
-          <span className="legend-color week-1"></span>
-          <span className="legend-label">Week 1</span>
+      {isDataEmpty() ? (
+        <div className="bar-chart-wrapper">
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '300px',
+            color: '#666',
+            fontSize: '16px'
+          }}>
+            No data available
+          </div>
         </div>
-        <div className="legend-item">
-          <span className="legend-color week-2"></span>
-          <span className="legend-label">Week 2</span>
-        </div>
-        <div className="legend-item">
-          <span className="legend-color week-3"></span>
-          <span className="legend-label">Week 3</span>
-        </div>
-        <div className="legend-item">
-          <span className="legend-color week-4"></span>
-          <span className="legend-label">Week 4</span>
-        </div>
-      </div>
+      ) : (
+        <>
+          <div className="bar-chart-wrapper">
+            <Bar data={data} options={options} />
+          </div>
+          <div className="chart-legend">
+            <div className="legend-item">
+              <span className="legend-color week-1"></span>
+              <span className="legend-label">Week 1</span>
+            </div>
+            <div className="legend-item">
+              <span className="legend-color week-2"></span>
+              <span className="legend-label">Week 2</span>
+            </div>
+            <div className="legend-item">
+              <span className="legend-color week-3"></span>
+              <span className="legend-label">Week 3</span>
+            </div>
+            <div className="legend-item">
+              <span className="legend-color week-4"></span>
+              <span className="legend-label">Week 4</span>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };
