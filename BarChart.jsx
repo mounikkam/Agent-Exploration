@@ -85,6 +85,9 @@ const BarChart = () => {
     console.log('Closing bar chart');
   }, []);
 
+  // Check if data is empty
+  const isDataEmpty = !data.datasets || data.datasets.length === 0 || data.datasets.every(d => !d.data || d.data.length === 0);
+
   useEffect(() => {
     const handleResize = () => {
       // noop to mirror class-based forceUpdate behaviour
@@ -100,7 +103,20 @@ const BarChart = () => {
         <button className="chart-close-btn" onClick={handleClose}>×</button>
       </div>
       <div className="bar-chart-wrapper">
-        <Bar data={data} options={options} />
+        {isDataEmpty ? (
+          <div className="no-data-message" style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '200px',
+            color: '#666',
+            fontSize: '16px'
+          }}>
+            No data available
+          </div>
+        ) : (
+          <Bar data={data} options={options} />
+        )}
       </div>
       <div className="chart-legend">
         <div className="legend-item">
