@@ -1,0 +1,18 @@
+/* Basic styling for the no-data message */
+.no-data-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  color: #6c757d;
+  font-size: 16px;
+  text-align: center;
+}
+
+.no-data-message p {
+  margin: 0;
+  font-weight: 500;
+}
