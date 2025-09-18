@@ -93,6 +93,9 @@ const BarChart = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Check if data is empty (no datasets or all datasets have empty data)
+  const isDataEmpty = !data.datasets || data.datasets.length === 0 || data.datasets.every(d => !d.data || d.data.length === 0);
+
   return (
     <div className="bar-chart-container">
       <div className="chart-header">
@@ -100,7 +103,21 @@ const BarChart = () => {
         <button className="chart-close-btn" onClick={handleClose}>×</button>
       </div>
       <div className="bar-chart-wrapper">
-        <Bar data={data} options={options} />
+        {isDataEmpty ? (
+          <div className="no-data-message" style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '300px',
+            color: '#666',
+            fontSize: '16px',
+            textAlign: 'center'
+          }}>
+            No data available
+          </div>
+        ) : (
+          <Bar data={data} options={options} />
+        )}
       </div>
       <div className="chart-legend">
         <div className="legend-item">
