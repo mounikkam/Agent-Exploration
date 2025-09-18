@@ -7,6 +7,13 @@ import './BarChart.css';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const BarChart = () => {
+  // Function to check if all datasets are empty
+  const isDataEmpty = (chartData) => {
+    return !chartData.datasets || 
+           chartData.datasets.length === 0 || 
+           chartData.datasets.every(dataset => !dataset.data || dataset.data.length === 0);
+  };
+
   const [data] = useState({
     labels: ['Store 1', 'Store 2', 'Store 3', 'Store 4', 'Store 5', 'Store 6', 'Store 7', 'Store 8', 'Store 9', 'Store 10'],
     datasets: [
@@ -100,7 +107,21 @@ const BarChart = () => {
         <button className="chart-close-btn" onClick={handleClose}>×</button>
       </div>
       <div className="bar-chart-wrapper">
-        <Bar data={data} options={options} />
+        {isDataEmpty(data) ? (
+          <div className="no-data-message" style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '300px',
+            color: '#666',
+            fontSize: '16px',
+            fontFamily: 'Arial, sans-serif'
+          }}>
+            No data available
+          </div>
+        ) : (
+          <Bar data={data} options={options} />
+        )}
       </div>
       <div className="chart-legend">
         <div className="legend-item">
